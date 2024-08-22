@@ -1,1 +1,14 @@
-<p>book-details-popup works!</p>
+<div class="book-details">
+  <form [formGroup]="bookForm" class="book-details__form">
+    <div class="book-details__form-control">Title: <input type="text" formControlName="title"></div>
+    <div class="book-details__form-control">Description: <input type="text" formControlName="description"></div>
+    <div class="book-details__form-control">Author: <input type="text" formControlName="author"></div>
+    <div class="book-details__form-control">Publication year: <input type="number" formControlName="publicationYear"></div>
+    <div class="book-details__form-control">Top seller: <input type="checkbox" formControlName="isTopSeller"></div>
+  </form>
+  <div class="book-details__actions">
+    <button class="close-button" (click)="closeDialog()">Close</button>
+    <button class="delete-button" [disabled]="!data?.book" (click)="deleteBook()">Delete</button>
+    <button class="save-button" [disabled]="bookForm.invalid" (click)="saveBook()">Save</button>
+  </div>
+</div>

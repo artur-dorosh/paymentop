@@ -4,5 +4,5 @@ export interface Book {
   author: string;
   publicationYear: number;
   description: string;
-  isTopSeller: boolean
+  isTopSeller: boolean;
 }

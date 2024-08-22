@@ -1,0 +1,89 @@
+.book-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  height: 100%;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 20px 0;
+
+    &-control {
+      display: flex;
+      flex-direction: column;
+      width: 70%;
+
+      &:last-child {
+        flex-direction: row;
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+
+    .close-button,
+    .delete-button,
+    .save-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px 10px;
+      background-color: transparent;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: .3s ease;
+    }
+
+    .close-button {
+      color: #a2a2a2;
+      border: 1px solid #a2a2a2;
+
+      &:hover {
+        color: #fff;
+        background-color: #a2a2a2;
+      }
+    }
+
+    .delete-button {
+      color: #e30d0d;
+      border: 1px solid #e30d0d;
+
+      &:hover {
+        color: #fff;
+        background-color: #e30d0d;
+      }
+
+      &:disabled {
+        color: #e0e0e0;
+        background-color: transparent;
+        border-color: #e0e0e0;
+        cursor: not-allowed;
+      }
+    }
+
+    .save-button {
+      color: #92d90e;
+      border: 1px solid #92d90e;
+
+      &:hover {
+        color: #fff;
+        background-color: #92d90e;
+      }
+
+      &:disabled {
+        color: #e0e0e0;
+        background-color: transparent;
+        border-color: #e0e0e0;
+        cursor: not-allowed;
+      }
+    }
+  }
+}

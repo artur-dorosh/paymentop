@@ -34,7 +34,7 @@ export class BookListService {
     },
     {
       id: uuid(),
-      title: 'JavaScript and JQuery: Interactive Front-End Web Development',
+      title: 'JavaScript and JQuery: Interactive Front-End Web Developmente Front-End Web Deve lopmente Front-End Web Development',
       author: 'Jon Duckett',
       publicationYear: 2014,
       description: 'In JavaScript and jQuery: Interactive Front-End Development, best-selling author Jon Duckett delivers a fully illustrated guide to making your websites more interactive and your interfaces more interesting and intuitive. ',
@@ -46,18 +46,24 @@ export class BookListService {
     return of(this.books);
   }
 
-  addBook(bookInfo: Book): Observable<Book> {
-    this.books = [...this.books, bookInfo];
+  getBook(bookId: string): Observable<Book | undefined> {
+    return of(this.books.find((book: Book) => book.id === bookId));
+  }
+
+  addBook(bookInfo: Partial<Book>): Observable<Book> {
+    const book: Book = { id: uuid(), ...bookInfo } as Book;
+
+    this.books = [...this.books, book];
+    return of(book);
+  }
+
+  editBook(bookInfo: Partial<Book>): Observable<Partial<Book>> {
+    this.books = this.books.map((book: Book) => book.id === bookInfo.id ? { ...book, ...bookInfo } : book);
     return of(bookInfo);
   }
 
-  editBook(bookInfo: Book): Observable<Book> {
-    this.books = this.books.map((book: Book) => book.id === bookInfo.id ? bookInfo : book);
-    return of(bookInfo);
-  }
-
-  deleteBook(bookId: string): Observable<void> {
+  deleteBook(bookId: string): Observable<string> {
     this.books = this.books.filter((book: Book) => book.id !== bookId);
-    return of();
+    return of(bookId);
   }
 }

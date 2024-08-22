@@ -1,3 +1,15 @@
 <div class="container">
+  <div class="add-block">
+    <div class="add-button" (click)="addBook()"><mat-icon>add</mat-icon> Add book</div>
+  </div>
 
+  <div class="book-list">
+    @for (book of (books$ | async); track book) {
+      <app-book @listAnimation
+                [book]="book"
+                (editBookEvent)="editBook($event)"
+                (deleteBookEvent)="deleteBook($event)">
+      </app-book>
+    }
+  </div>
 </div>
