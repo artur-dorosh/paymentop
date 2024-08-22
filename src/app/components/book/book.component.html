@@ -1,8 +1,13 @@
 <div class="book" (click)="editBook(book.id)">
-  <div class="book__title" [title]="book.title">{{ book.title }}</div>
-  <div class="book__information">
-    <div class="book__author">Author: {{ book.author }}</div>
-    <div class="book__publication-year">Publication Year: {{ book.publicationYear }}</div>
+  <div class="book__cover">
+    <img [src]="book.cover | showImage" alt="cover" width="100" height="100">
+  </div>
+  <div class="book__data">
+    <div class="book__title" [title]="book.title">{{ book.title }}</div>
+    <div class="book__information">
+      <div class="book__author">Author: {{ book.author }}</div>
+      <div class="book__publication-year">Publication Year: {{ book.publicationYear }}</div>
+    </div>
   </div>
 </div>
 <div class="actions">

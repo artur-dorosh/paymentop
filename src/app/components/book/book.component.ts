@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Book } from '../../interfaces/book.interface';
 import { MatIcon } from '@angular/material/icon';
+import { ShowImagePipe } from '../../pipes/show-image.pipe';
 
 @Component({
   selector: 'app-book',
   standalone: true,
   imports: [
-    MatIcon
+    MatIcon,
+    ShowImagePipe
   ],
   templateUrl: './book.component.html',
   styleUrl: './book.component.scss',

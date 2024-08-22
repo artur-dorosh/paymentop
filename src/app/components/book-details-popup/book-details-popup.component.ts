@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Book } from '../../interfaces/book.interface';
 import { BookForm } from '../../interfaces/book-form.interface';
 import { MatIcon } from '@angular/material/icon';
+import { ShowImagePipe } from '../../pipes/show-image.pipe';
+import { NgOptimizedImage } from '@angular/common';
 
 interface DialogData {
   book: Book | null;
@@ -14,7 +16,9 @@ interface DialogData {
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    MatIcon
+    MatIcon,
+    ShowImagePipe,
+    NgOptimizedImage,
   ],
   templateUrl: './book-details-popup.component.html',
   styleUrl: './book-details-popup.component.scss',
@@ -25,6 +29,7 @@ export class BookDetailsPopupComponent implements OnInit {
 
   private readonly dialogRef: MatDialogRef<BookDetailsPopupComponent> = inject(MatDialogRef<BookDetailsPopupComponent>);
   private readonly fb: FormBuilder = inject(FormBuilder);
+  private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   bookForm: FormGroup<BookForm>;
 
@@ -33,6 +38,16 @@ export class BookDetailsPopupComponent implements OnInit {
 
     if (this.data.book) {
       this.fillForm(this.data.book);
+    }
+  }
+
+  onImageSelect(event: Event): void {
+    const reader = new FileReader();
+    reader.readAsDataURL((event.target as HTMLInputElement).files![0]);
+
+    reader.onload = () => {
+      this.bookForm.get('cover')?.patchValue(reader.result as string);
+      this.cdr.markForCheck();
     }
   }
 
@@ -58,6 +73,7 @@ export class BookDetailsPopupComponent implements OnInit {
       author: this.fb.control(null, [Validators.required]),
       publicationYear: this.fb.control(null, [Validators.required]),
       isTopSeller: this.fb.control(false, [Validators.required]),
+      cover: this.fb.control(null, [Validators.required]),
     });
   }
 

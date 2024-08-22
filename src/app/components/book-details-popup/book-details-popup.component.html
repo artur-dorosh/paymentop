@@ -5,6 +5,7 @@
     <div class="book-details__form-control">Author: <input type="text" formControlName="author"></div>
     <div class="book-details__form-control">Publication year: <input type="number" formControlName="publicationYear"></div>
     <div class="book-details__form-control">Top seller: <input type="checkbox" formControlName="isTopSeller"></div>
+    <div class="book-details__form-control">Cover: <input type="file" accept="image/png, image/gif, image/jpeg" (change)="onImageSelect($event)"></div>
   </form>
   <div class="book-details__actions">
     <button class="close-button" (click)="closeDialog()">Close</button>

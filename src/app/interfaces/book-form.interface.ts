@@ -6,4 +6,5 @@ export interface BookForm {
   author: FormControl<string | null>;
   publicationYear: FormControl<number | null>;
   isTopSeller: FormControl<boolean | null>;
+  cover: FormControl<string | null>;
 }
