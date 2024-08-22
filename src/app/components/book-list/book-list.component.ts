@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { BookListService } from '../../services/book-list.service';
-import { BehaviorSubject, filter, of, switchMap } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, of, switchMap } from 'rxjs';
 import { Book } from '../../interfaces/book.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BookComponent } from '../book/book.component';
@@ -9,6 +9,7 @@ import { MatIcon } from '@angular/material/icon';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BookDetailsPopupComponent } from '../book-details-popup/book-details-popup.component';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-book-list',
@@ -16,7 +17,8 @@ import { BookDetailsPopupComponent } from '../book-details-popup/book-details-po
   imports: [
     BookComponent,
     AsyncPipe,
-    MatIcon
+    MatIcon,
+    ReactiveFormsModule
   ],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.scss',
@@ -38,10 +40,19 @@ export class BookListComponent implements OnInit {
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
+  searchControl: FormControl = new FormControl();
+
   books$: BehaviorSubject<Book[]> = new BehaviorSubject<Book[]>([]);
 
   ngOnInit(): void {
     this.bookListService.getBooksList().pipe(
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe((books: Book[]) => this.books$.next(books));
+
+    this.searchControl.valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap((value: string) => this.bookListService.makeSearch(value)),
       takeUntilDestroyed(this.destroyRef),
     ).subscribe((books: Book[]) => this.books$.next(books));
   }

@@ -50,6 +50,12 @@ export class BookListService {
     return of(this.books.find((book: Book) => book.id === bookId));
   }
 
+  makeSearch(query: string): Observable<Book[]> {
+    return of(this.books.filter(
+      (book: Book) => book.title.toLowerCase().includes(query.toLowerCase()) || book.author.toLowerCase().includes(query.toLowerCase()),
+    ));
+  }
+
   addBook(bookInfo: Partial<Book>): Observable<Book> {
     const book: Book = { id: uuid(), ...bookInfo } as Book;
 
